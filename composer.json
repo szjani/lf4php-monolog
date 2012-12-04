@@ -1,0 +1,21 @@
+{
+    "name": "lf4php/lf4php-monolog",
+    "description": "This is an lf4php binding for Monolog.",
+    "license": "MIT",
+    "keywords": ["lf4php", "facade", "wrapper", "monolog"],
+    "authors": [
+        {
+            "name": "Szurovecz János",
+            "homepage": "http://www.szjani.hu/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "lf4php/lf4php": "dev-master",
+        "monolog/monolog": "1.2.1"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {"lf4php": "src/"}
+    }
+}
