@@ -24,25 +24,21 @@
 namespace lf4php\monolog;
 
 use ArrayObject;
-use lf4php\ILoggerFactory;
+use lf4php\CachedClassLoggerFactory;
 use lf4php\Logger;
 use Monolog\Logger as MonologLogger;
 
 /**
  * @author Szurovecz János <szjani@szjani.hu>
  */
-class MonologLoggerFactory implements ILoggerFactory
+class MonologLoggerFactory extends CachedClassLoggerFactory
 {
-    private $map;
-
+    /**
+     * @var MonologLoggerWrapper
+     */
     private $defaultLogger;
 
-    public function __construct()
-    {
-        $this->map = new ArrayObject();
-    }
-
-    private function getDefaultLogger()
+    protected function getDefaultLogger()
     {
         if ($this->defaultLogger === null) {
             $this->defaultLogger = new MonologLoggerWrapper(new MonologLogger(Logger::ROOT_LOGGER_NAME));
@@ -51,44 +47,10 @@ class MonologLoggerFactory implements ILoggerFactory
     }
 
     /**
-     * Useful for class names.
-     * If $name is \foo\bar and there is a registered
-     * logger for \foo then it will returns it in case
-     * of no registered logger for \foo\bar.
-     *
-     * If it does not find any logger, creates a default one.
-     *
-     * @param string $name
-     * @return MonologLoggerWrapper
-     */
-    protected function findClosestAncestor($name)
-    {
-        $name = trim($name, '\\');
-        $parts = explode('\\', $name);
-        while (!array_key_exists($name, $this->map) && !empty($parts)) {
-            array_pop($parts);
-            $name = implode('\\', $parts);
-        }
-        if (!array_key_exists($name, $this->map)) {
-            $this->map[$name] = $this->getDefaultLogger();
-        }
-        return $this->map[$name];
-    }
-
-    /**
      * @param MonologLogger $monologLogger
      */
-    public function registerLogger(MonologLogger $monologLogger)
+    public function registerMonologLogger(MonologLogger $monologLogger)
     {
-        $this->map[$monologLogger->getName()] = new MonologLoggerWrapper($monologLogger);
-    }
-
-    /**
-     * @param string $name
-     * @return Logger
-     */
-    public function getLogger($name)
-    {
-        return $this->findClosestAncestor($name);
+        $this->registerLogger($monologLogger->getName(), new MonologLoggerWrapper($monologLogger));
     }
 }

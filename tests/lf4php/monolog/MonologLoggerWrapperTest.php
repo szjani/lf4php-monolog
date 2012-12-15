@@ -44,7 +44,7 @@ class MonologLoggerWrapperTest extends PHPUnit_Framework_TestCase
     {
         $this->monologFactory = new MonologLoggerFactory();
         $this->monolog = new \Monolog\Logger('foo');
-        $this->monologFactory->registerLogger($this->monolog);
+        $this->monologFactory->registerMonologLogger($this->monolog);
     }
 
     public function testRegisterLogger()
