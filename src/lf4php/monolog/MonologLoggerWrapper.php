@@ -23,14 +23,15 @@
 
 namespace lf4php\monolog;
 
+use Exception;
 use lf4php\helpers\MessageFormatter;
-use lf4php\Logger;
+use lf4php\LocationLogger;
 use Monolog\Logger as MonologLogger;
 
 /**
  * @author Szurovecz János <szjani@szjani.hu>
  */
-class MonologLoggerWrapper implements Logger
+class MonologLoggerWrapper extends LocationLogger
 {
     /**
      * @var MonologLogger
@@ -43,6 +44,7 @@ class MonologLoggerWrapper implements Logger
     public function __construct(MonologLogger $monologLogger)
     {
         $this->monologLogger = $monologLogger;
+        $this->setLocationPrefix('');
     }
 
     /**
@@ -58,39 +60,44 @@ class MonologLoggerWrapper implements Logger
         return $this->monologLogger->getName();
     }
 
+    protected function getFormattedLocation()
+    {
+        return $this->getLocationPrefix() . $this->getShortLocation(self::DEFAULT_BACKTRACE_LEVEL + 1) . $this->getLocationSuffix();
+    }
+
     public function debug($format, $params = array())
     {
         if ($this->isDebugEnabled()) {
-            $this->monologLogger->debug(MessageFormatter::format($format, $params));
+            $this->monologLogger->debug($this->getFormattedLocation() . MessageFormatter::format($format, $params));
         }
     }
 
     public function error($format, $params = array())
     {
         if ($this->isErrorEnabled()) {
-            $this->monologLogger->err(MessageFormatter::format($format, $params));
+            $this->monologLogger->err($this->getFormattedLocation() . MessageFormatter::format($format, $params));
         }
     }
 
     public function info($format, $params = array())
     {
         if ($this->isInfoEnabled()) {
-            $this->monologLogger->info(MessageFormatter::format($format, $params));
+            $this->monologLogger->info($this->getFormattedLocation() . MessageFormatter::format($format, $params));
         }
     }
 
     public function trace($format, $params = array())
     {
         if ($this->isTraceEnabled()) {
-            $e = new \Exception();
-            $this->monologLogger->debug(MessageFormatter::format($format, $params) . PHP_EOL . $e->getTraceAsString());
+            $e = new Exception();
+            $this->monologLogger->debug($this->getFormattedLocation() . MessageFormatter::format($format, $params) . PHP_EOL . $e->getTraceAsString());
         }
     }
 
     public function warn($format, $params = array())
     {
         if ($this->isWarnEnabled()) {
-            $this->monologLogger->warn(MessageFormatter::format($format, $params));
+            $this->monologLogger->warn($this->getFormattedLocation() . MessageFormatter::format($format, $params));
         }
     }
 

@@ -76,6 +76,7 @@ class MonologLoggerWrapperTest extends PHPUnit_Framework_TestCase
 
         $content = file_get_contents($logfile);
         self::assertRegExp('/Hello John!/', $content);
+        self::assertRegExp('/MonologLoggerWrapperTest/', $content);
         $streamHandler->close();
         unlink($logfile);
     }
