@@ -23,7 +23,6 @@
 
 namespace lf4php\monolog;
 
-use ArrayObject;
 use lf4php\CachedClassLoggerFactory;
 use lf4php\Logger;
 use Monolog\Logger as MonologLogger;
