@@ -32,17 +32,12 @@ use Monolog\Logger as MonologLogger;
  */
 class MonologLoggerFactory extends CachedClassLoggerFactory
 {
-    /**
-     * @var MonologLoggerWrapper
-     */
-    private $defaultLogger;
-
     protected function getDefaultLogger()
     {
-        if ($this->defaultLogger === null) {
-            $this->defaultLogger = new MonologLoggerWrapper(new MonologLogger(Logger::ROOT_LOGGER_NAME));
+        if (!array_key_exists(Logger::ROOT_LOGGER_NAME, $this->map)) {
+            $this->map[Logger::ROOT_LOGGER_NAME] = new MonologLoggerWrapper(new MonologLogger(Logger::ROOT_LOGGER_NAME));
         }
-        return $this->defaultLogger;
+        return $this->map[Logger::ROOT_LOGGER_NAME];
     }
 
     /**
