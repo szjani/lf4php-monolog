@@ -72,7 +72,7 @@ class MonologLoggerWrapperTest extends PHPUnit_Framework_TestCase
         $streamHandler = new \Monolog\Handler\StreamHandler($logfile);
         $this->monolog->pushHandler($streamHandler);
         $found = $this->monologFactory->getLogger('foo');
-        $found->trace('Hello {{name}}! Ouch!', array('name' => 'John'));
+        $found->trace('Hello {}! Ouch!', array('John'));
 
         $content = file_get_contents($logfile);
         self::assertRegExp('/Hello John!/', $content);

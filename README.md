@@ -21,8 +21,15 @@ LoggerFactory::setILoggerFactory($monologFactory);
 
 ```php
 <?php
-$logger = LoggerFactory::getLogger('\foo\bar');
+$logger = LoggerFactory::getLogger(__CLASS__);
 $logger->info('Message');
-$logger->debug('Hello {{name}}!', array('name' => 'John'));
+$logger->debug('Hello {}!', array('John'));
 $logger->error(new \Exception());
 ```
+
+History
+-------
+
+### 3.0
+
+Updated lf4php (3.0.x)
