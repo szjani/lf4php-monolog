@@ -56,7 +56,7 @@ class MonologLoggerWrapperTest extends PHPUnit_Framework_TestCase
     public function testDefaultLogger()
     {
         $found = $this->monologFactory->getLogger('notExists');
-        self::assertEquals(\lf4php\Logger::ROOT_LOGGER_NAME, $found->getName());
+        self::assertEquals(MonologLoggerFactory::ROOT_LOGGER_NAME, $found->getName());
         self::assertEquals($found->getName(), $found->getMonologLogger()->getName());
     }
 

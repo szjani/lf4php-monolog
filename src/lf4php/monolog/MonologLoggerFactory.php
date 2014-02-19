@@ -24,7 +24,6 @@
 namespace lf4php\monolog;
 
 use lf4php\CachedClassLoggerFactory;
-use lf4php\Logger;
 use Monolog\Logger as MonologLogger;
 
 /**
@@ -32,12 +31,11 @@ use Monolog\Logger as MonologLogger;
  */
 class MonologLoggerFactory extends CachedClassLoggerFactory
 {
-    protected function getDefaultLogger()
+    const ROOT_LOGGER_NAME = 'ROOT';
+
+    public function __construct()
     {
-        if (!array_key_exists(Logger::ROOT_LOGGER_NAME, $this->map)) {
-            $this->map[Logger::ROOT_LOGGER_NAME] = new MonologLoggerWrapper(new MonologLogger(Logger::ROOT_LOGGER_NAME));
-        }
-        return $this->map[Logger::ROOT_LOGGER_NAME];
+        parent::__construct(new MonologLoggerWrapper(new MonologLogger(self::ROOT_LOGGER_NAME)));
     }
 
     /**
