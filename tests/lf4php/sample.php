@@ -24,12 +24,11 @@
 
 require_once __DIR__ . '/../bootstrap.php';
 
-use lf4php\Logger;
 use lf4php\LoggerFactory;
 use lf4php\monolog\MonologLoggerFactory;
 
 // initialize Monolog
-$monolog = new \Monolog\Logger(Logger::ROOT_LOGGER_NAME);
+$monolog = new \Monolog\Logger('root');
 $monolog->pushHandler(new Monolog\Handler\StreamHandler('php://output'));
 
 // configure lf4php
@@ -38,15 +37,15 @@ $monologgerFactory->registerMonologLogger($monolog);
 LoggerFactory::setILoggerFactory($monologgerFactory);
 
 // logging
-$logger = LoggerFactory::getLogger(null);
-$logger->error('Hello {{who}}!', array('who' => 'World'), new Exception());
+$logger = LoggerFactory::getLogger('default');
+$logger->error('Hello {}!', array('World'), new Exception());
 $logger->info(Test::getException());
 
 class Test
 {
     public static function getException()
     {
-        LoggerFactory::getLogger(null)->debug(__METHOD__);
+        LoggerFactory::getLogger(__CLASS__)->debug(__METHOD__);
         return new Exception('ouch');
     }
 }
