@@ -13,7 +13,7 @@ Using lf4php-monolog
 $monologFactory = new MonologLoggerFactory();
 $monolog = new \Monolog\Logger('foo');
 // here you can configre your Monolog loggers
-$monologFactory->registerLogger($monolog);
+$monologFactory->registerMonologLogger($monolog);
 LoggerFactory::setILoggerFactory($monologFactory);
 ```
 
