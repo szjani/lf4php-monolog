@@ -14,6 +14,9 @@
         "monolog/monolog": "~1.2",
         "lf4php/lf4php": "~4.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
     "autoload": {
         "psr-0": {"lf4php": "src/"}
     }
