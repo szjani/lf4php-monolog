@@ -110,26 +110,26 @@ class MonologLoggerWrapper extends LocationLogger
 
     public function isDebugEnabled()
     {
-        return true;
+        return $this->monologLogger->isHandling(MonologLogger::DEBUG);
     }
 
     public function isErrorEnabled()
     {
-        return true;
+        return $this->monologLogger->isHandling(MonologLogger::ERROR);
     }
 
     public function isInfoEnabled()
     {
-        return true;
+        return $this->monologLogger->isHandling(MonologLogger::INFO);
     }
 
     public function isTraceEnabled()
     {
-        return true;
+        return $this->monologLogger->isHandling(MonologLogger::DEBUG);
     }
 
     public function isWarnEnabled()
     {
-        return true;
+        return $this->monologLogger->isHandling(MonologLogger::WARNING);
     }
 }
