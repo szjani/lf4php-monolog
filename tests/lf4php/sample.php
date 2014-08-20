@@ -26,6 +26,7 @@ require_once __DIR__ . '/../bootstrap.php';
 
 use lf4php\LoggerFactory;
 use lf4php\monolog\MonologLoggerFactory;
+use lf4php\monolog\MonologLoggerWrapper;
 
 // initialize Monolog
 $monolog = new \Monolog\Logger('root');
@@ -33,7 +34,7 @@ $monolog->pushHandler(new Monolog\Handler\StreamHandler('php://output'));
 
 // configure lf4php
 $monologgerFactory = new MonologLoggerFactory();
-$monologgerFactory->registerMonologLogger($monolog);
+$monologgerFactory->setRootLogger(new MonologLoggerWrapper($monolog));
 LoggerFactory::setILoggerFactory($monologgerFactory);
 
 // logging
