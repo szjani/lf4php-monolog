@@ -26,6 +26,7 @@ namespace lf4php\monolog;
 use Exception;
 use lf4php\helpers\MessageFormatter;
 use lf4php\LocationLogger;
+use lf4php\MDC;
 use Monolog\Logger as MonologLogger;
 
 /**
@@ -33,6 +34,8 @@ use Monolog\Logger as MonologLogger;
  */
 class MonologLoggerWrapper extends LocationLogger
 {
+    const MONOLOG_EXTRA = 'extra';
+
     /**
      * @var MonologLogger
      */
@@ -44,7 +47,16 @@ class MonologLoggerWrapper extends LocationLogger
     public function __construct(MonologLogger $monologLogger)
     {
         $this->monologLogger = $monologLogger;
+        $this->monologLogger->pushProcessor(array(__CLASS__, 'monologMDCProcessor'));
         $this->setLocationPrefix('');
+    }
+
+    public static function monologMDCProcessor($record)
+    {
+        foreach (MDC::getCopyOfContextMap() as $key => $value) {
+            $record[self::MONOLOG_EXTRA][$key] = $value;
+        }
+        return $record;
     }
 
     /**

@@ -23,6 +23,7 @@
 
 namespace lf4php\monolog;
 
+use lf4php\MDC;
 use Monolog\Handler\NullHandler;
 use Monolog\Logger;
 use PHPUnit_Framework_TestCase;
@@ -104,5 +105,24 @@ class MonologLoggerWrapperTest extends PHPUnit_Framework_TestCase
         $this->monolog->pushHandler(new NullHandler(Logger::DEBUG));
         self::assertTrue($this->monolog->isHandling(Logger::DEBUG));
         self::assertTrue($logger->isDebugEnabled());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMdcProcessorBeAdded()
+    {
+        $processor = $this->monolog->popProcessor();
+        $record = array();
+        $aKey1 = 'key1';
+        $aKey2 = 'key2';
+        $aValue1 = 'value1';
+        $aValue2 = 'value2';
+        MDC::put($aKey1, $aValue1);
+        MDC::put($aKey2, $aValue2);
+        $result = call_user_func($processor, $record);
+        self::assertArrayHasKey(MonologLoggerWrapper::MONOLOG_EXTRA, $result);
+        self::assertEquals($aValue1, $result[MonologLoggerWrapper::MONOLOG_EXTRA][$aKey1]);
+        self::assertEquals($aValue2, $result[MonologLoggerWrapper::MONOLOG_EXTRA][$aKey2]);
     }
 }
