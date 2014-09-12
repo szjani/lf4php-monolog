@@ -25,6 +25,7 @@
 require_once __DIR__ . '/../bootstrap.php';
 
 use lf4php\LoggerFactory;
+use lf4php\MDC;
 use lf4php\monolog\MonologLoggerFactory;
 use lf4php\monolog\MonologLoggerWrapper;
 
@@ -37,8 +38,10 @@ $monologgerFactory = new MonologLoggerFactory();
 $monologgerFactory->setRootLogger(new MonologLoggerWrapper($monolog));
 LoggerFactory::setILoggerFactory($monologgerFactory);
 
+
 // logging
 $logger = LoggerFactory::getLogger('default');
+MDC::put('IP', '127.0.0.1');
 $logger->error('Hello {}!', array('World'), new Exception());
 $logger->info(Test::getException());
 
@@ -47,6 +50,7 @@ class Test
     public static function getException()
     {
         LoggerFactory::getLogger(__CLASS__)->debug(__METHOD__);
+        MDC::clear();
         return new Exception('ouch');
     }
 }
