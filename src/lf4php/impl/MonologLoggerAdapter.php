@@ -32,7 +32,7 @@ use Monolog\Logger as MonologLogger;
 /**
  * @author Szurovecz János <szjani@szjani.hu>
  */
-class MonologLoggerWrapper extends LocationLogger
+class MonologLoggerAdapter extends LocationLogger
 {
     const MONOLOG_EXTRA = 'extra';
 

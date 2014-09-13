@@ -121,8 +121,8 @@ class MonologLoggerWrapperTest extends PHPUnit_Framework_TestCase
         MDC::put($aKey1, $aValue1);
         MDC::put($aKey2, $aValue2);
         $result = call_user_func($processor, $record);
-        self::assertArrayHasKey(MonologLoggerWrapper::MONOLOG_EXTRA, $result);
-        self::assertEquals($aValue1, $result[MonologLoggerWrapper::MONOLOG_EXTRA][$aKey1]);
-        self::assertEquals($aValue2, $result[MonologLoggerWrapper::MONOLOG_EXTRA][$aKey2]);
+        self::assertArrayHasKey(MonologLoggerAdapter::MONOLOG_EXTRA, $result);
+        self::assertEquals($aValue1, $result[MonologLoggerAdapter::MONOLOG_EXTRA][$aKey1]);
+        self::assertEquals($aValue2, $result[MonologLoggerAdapter::MONOLOG_EXTRA][$aKey2]);
     }
 }

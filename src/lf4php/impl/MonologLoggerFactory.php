@@ -35,7 +35,7 @@ class MonologLoggerFactory extends CachedClassLoggerFactory
 
     public function __construct()
     {
-        parent::__construct(new MonologLoggerWrapper(new MonologLogger(self::ROOT_LOGGER_NAME)));
+        parent::__construct(new MonologLoggerAdapter(new MonologLogger(self::ROOT_LOGGER_NAME)));
     }
 
     /**
@@ -43,11 +43,11 @@ class MonologLoggerFactory extends CachedClassLoggerFactory
      */
     public function registerMonologLogger(MonologLogger $monologLogger)
     {
-        $this->registerLogger($monologLogger->getName(), new MonologLoggerWrapper($monologLogger));
+        $this->registerLogger($monologLogger->getName(), new MonologLoggerAdapter($monologLogger));
     }
 
     public function setRootMonologLogger(MonologLogger $monologLogger)
     {
-        $this->setRootLogger(new MonologLoggerWrapper($monologLogger));
+        $this->setRootLogger(new MonologLoggerAdapter($monologLogger));
     }
 }
