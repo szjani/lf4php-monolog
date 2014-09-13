@@ -45,4 +45,9 @@ class MonologLoggerFactory extends CachedClassLoggerFactory
     {
         $this->registerLogger($monologLogger->getName(), new MonologLoggerWrapper($monologLogger));
     }
+
+    public function setRootMonologLogger(MonologLogger $monologLogger)
+    {
+        $this->setRootLogger(new MonologLoggerWrapper($monologLogger));
+    }
 }

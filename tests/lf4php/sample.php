@@ -27,15 +27,13 @@ require_once __DIR__ . '/../bootstrap.php';
 use lf4php\impl\StaticLoggerBinder;
 use lf4php\LoggerFactory;
 use lf4php\MDC;
-use lf4php\impl\MonologLoggerWrapper;
 
 // initialize Monolog
 $monolog = new \Monolog\Logger('root');
 $monolog->pushHandler(new Monolog\Handler\StreamHandler('php://output'));
 
 // configure lf4php
-$monologgerFactory = StaticLoggerBinder::$SINGLETON->getLoggerFactory();
-$monologgerFactory->setRootLogger(new MonologLoggerWrapper($monolog));
+StaticLoggerBinder::$SINGLETON->getLoggerFactory()->setRootMonologLogger($monolog);
 
 // logging
 $logger = LoggerFactory::getLogger('default');
