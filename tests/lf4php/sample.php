@@ -29,11 +29,16 @@ use lf4php\LoggerFactory;
 use lf4php\MDC;
 
 // initialize Monolog
-$monolog = new \Monolog\Logger('root');
-$monolog->pushHandler(new Monolog\Handler\StreamHandler('php://output'));
+$handler = new Monolog\Handler\StreamHandler('php://output');
+$monolog1 = new \Monolog\Logger('root');
+$monolog2 = new \Monolog\Logger('Test');
+$monolog1->pushHandler($handler);
+$monolog2->pushHandler($handler);
 
 // configure lf4php
-StaticLoggerBinder::$SINGLETON->getLoggerFactory()->setRootMonologLogger($monolog);
+$factory = StaticLoggerBinder::$SINGLETON->getLoggerFactory();
+$factory->setRootMonologLogger($monolog1);
+$factory->registerMonologLogger($monolog2);
 
 // logging
 $logger = LoggerFactory::getLogger('default');
