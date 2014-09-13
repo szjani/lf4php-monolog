@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2012 Szurovecz János
+ * Copyright (c) 2014 Szurovecz János
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,28 +21,36 @@
  * SOFTWARE.
  */
 
-namespace lf4php\monolog;
 
-use lf4php\CachedClassLoggerFactory;
-use Monolog\Logger as MonologLogger;
+namespace lf4php\impl;
 
 /**
- * @author Szurovecz János <szjani@szjani.hu>
+ * StaticLoggerBinder for monolog.
+ *
+ * @package lf4php\impl
+ * @author Janos Szurovecz <szjani@szjani.hu>
  */
-class MonologLoggerFactory extends CachedClassLoggerFactory
+final class StaticLoggerBinder
 {
-    const ROOT_LOGGER_NAME = 'ROOT';
+    /**
+     * @var StaticLoggerBinder
+     */
+    public static $SINGLETON;
 
-    public function __construct()
+    private $loggerFactory;
+
+    public static function init()
     {
-        parent::__construct(new MonologLoggerWrapper(new MonologLogger(self::ROOT_LOGGER_NAME)));
+        self::$SINGLETON = new StaticLoggerBinder();
+        self::$SINGLETON->loggerFactory = new MonologLoggerFactory();
     }
 
     /**
-     * @param MonologLogger $monologLogger
+     * @return MonologLoggerFactory
      */
-    public function registerMonologLogger(MonologLogger $monologLogger)
+    public function getLoggerFactory()
     {
-        $this->registerLogger($monologLogger->getName(), new MonologLoggerWrapper($monologLogger));
+        return $this->loggerFactory;
     }
 }
+StaticLoggerBinder::init();

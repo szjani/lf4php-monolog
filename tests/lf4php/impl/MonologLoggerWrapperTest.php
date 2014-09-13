@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-namespace lf4php\monolog;
+namespace lf4php\impl;
 
 use lf4php\MDC;
 use Monolog\Handler\NullHandler;

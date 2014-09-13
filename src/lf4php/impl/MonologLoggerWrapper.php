@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-namespace lf4php\monolog;
+namespace lf4php\impl;
 
 use Exception;
 use lf4php\helpers\MessageFormatter;
