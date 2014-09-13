@@ -10,11 +10,14 @@ Using lf4php-monolog
 
 ```php
 <?php
-$monologFactory = new MonologLoggerFactory();
-$monolog = new \Monolog\Logger('foo');
-// here you can configre your Monolog loggers
-$monologFactory->registerMonologLogger($monolog);
-LoggerFactory::setILoggerFactory($monologFactory);
+// configuring monolog loggers
+$monolog1 = new \Monolog\Logger('foo');
+$monolog2 = new \Monolog\Logger('bar');
+
+// registering them for lf4php
+$loggerFactory = StaticLoggerBinder::$SINGLETON->getLoggerFactory();
+$loggerFactory->setRootMonologLogger($monolog1);
+$loggerFactory->registerMonologLogger($monolog2);
 ```
 
 ### Logging
@@ -29,6 +32,10 @@ $logger->error(new \Exception());
 
 History
 -------
+
+### 3.1
+
+MDC support.
 
 ### 3.0
 
