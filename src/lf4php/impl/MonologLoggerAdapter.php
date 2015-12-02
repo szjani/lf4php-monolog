@@ -95,7 +95,7 @@ class MonologLoggerAdapter extends LocationLogger
     public function error($format, $params = array(), Exception $e = null)
     {
         if ($this->isErrorEnabled()) {
-            $this->monologLogger->err($this->getFormattedLocation() . MessageFormatter::format($format, $params) . $this->getExceptionString($e));
+            $this->monologLogger->error($this->getFormattedLocation() . MessageFormatter::format($format, $params) . $this->getExceptionString($e));
         }
     }
 
@@ -116,7 +116,7 @@ class MonologLoggerAdapter extends LocationLogger
     public function warn($format, $params = array(), Exception $e = null)
     {
         if ($this->isWarnEnabled()) {
-            $this->monologLogger->warn($this->getFormattedLocation() . MessageFormatter::format($format, $params) . $this->getExceptionString($e));
+            $this->monologLogger->warning($this->getFormattedLocation() . MessageFormatter::format($format, $params) . $this->getExceptionString($e));
         }
     }
 

@@ -125,4 +125,40 @@ class MonologLoggerWrapperTest extends PHPUnit_Framework_TestCase
         self::assertEquals($aValue1, $result[MonologLoggerAdapter::MONOLOG_EXTRA][$aKey1]);
         self::assertEquals($aValue2, $result[MonologLoggerAdapter::MONOLOG_EXTRA][$aKey2]);
     }
+
+    /**
+     * @test
+     */
+    public function shouldCallPsr3Warning()
+    {
+        $monologLogger = $this->getMock('\Monolog\Logger', array(), array(), '', false);
+        $monologLogger
+            ->expects(self::once())
+            ->method('isHandling')
+            ->with(\Monolog\Logger::WARNING)
+            ->will(self::returnValue(true));
+        $monologLogger
+            ->expects(self::once())
+            ->method('warning');
+        $logger = new MonologLoggerAdapter($monologLogger);
+        $logger->warn('message');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCallPsr3Error()
+    {
+        $monologLogger = $this->getMock('\Monolog\Logger', array(), array(), '', false);
+        $monologLogger
+            ->expects(self::once())
+            ->method('isHandling')
+            ->with(\Monolog\Logger::ERROR)
+            ->will(self::returnValue(true));
+        $monologLogger
+            ->expects(self::once())
+            ->method('error');
+        $logger = new MonologLoggerAdapter($monologLogger);
+        $logger->error('message');
+    }
 }
